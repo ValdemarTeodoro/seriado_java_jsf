@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="css/bg.css" />
+            <style type="text/css">
+                .ui-widget{font-size:90% !important;}
+            </style>
+	<title>Cadastro de Series</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:commandLink value="MENU" action="menu.xhtml" immediate="true" ajax="false"/>
+		<h1>Cadastro de Series</h1>
+		<p:growl/>
+		<p:panel header="Cadastro" toggleable="true">
+		<p:panelGrid columns="2">
+			<h:outputText value="Genero: *"/>
+			<p:selectOneMenu filter="true" value="#{seriesController.generoSelecionado}"
+				required="true"
+				requiredMessage="O campo genero é obrigatório!"
+				converter="generoConverter">
+				<f:selectItem itemLabel="SELECIONE" />
+				<f:selectItems 
+					value="#{generoController.lista}" 
+					var="genero"
+					itemLabel="#{genero.descricao}"
+					itemValue="#{genero}" />
+			</p:selectOneMenu>
+			
+			<h:outputText value="Status: *"/>
+			<p:selectOneMenu filter="true" value="#{seriesController.statusSelecionado}"
+				required="true"
+				requiredMessage="O campo status é obrigatório!"
+				converter="statusConverter">
+				<f:selectItem itemLabel="SELECIONE" />
+				<f:selectItems 
+					value="#{statusController.lista}" 
+					var="status"
+					itemLabel="#{status.descricao}"
+					itemValue="#{status}" />
+			</p:selectOneMenu>
+			
+			<h:outputText value="Nome: *" />
+			<p:inputText value="#{seriesController.series.nome}"
+				 required="true"
+				 requiredMessage="O campo nome é obrigatório!" />
+				 
+				<h:outputText value="Comentário: *" />
+			<p:inputText value="#{seriesController.series.comentario}"
+				 required="true"
+				 requiredMessage="O campo comentário é obrigatório!" />
+				 
+				<h:outputText value="Nota de avaliação: *" />
+			<p:inputText value="#{seriesController.series.notaAvaliacao}"
+				 required="true"
+				 requiredMessage="O campo nota de avaliação é obrigatório!" >
+				<f:validateLongRange minimum="1"/> 
+			</p:inputText>
+			
+			 <p:commandButton value="Salvar" action="#{seriesController.salvar}" ajax="false" />
+			 <p:commandButton value="Limpar" action="cadastroSerie.xhtml" actionListener="#{seriesController.limparCampos}" ajax="false" />
+		</p:panelGrid>
+		</p:panel>
+		</h:form>
+		<h:form>
+		<p:panel header="Lista" closable="true">
+		<h:outputText value="Nome:"/>
+		<p:inputText value="#{seriesController.nomePesquisado}"/>
+		<h:outputText value="Comentario: " />
+		<p:inputText value="#{seriesController.comentarioPesquisado}"/>
+		<h:commandButton value="Pesquisar" action="#{seriesController.pesquisarSeriePorNome}" ajax="false"/>
+		<p:dataTable value="#{seriesController.lista}" var="series" border="1" id="serie" paginator="true" rows="4">
+			<p:column headerText="id">
+				<h:outputText value="#{series.id}" />
+			</p:column>
+			<p:column headerText="Nome">
+				<h:outputText value="#{series.nome}" />
+			</p:column>
+			<p:column headerText="Genero">
+				<h:outputText value="#{series.genero.descricao}" />
+			</p:column>
+			<p:column headerText="Status">
+				<h:outputText value="#{series.status.descricao}" />
+			</p:column>
+			<p:column headerText="Comentário">
+				<h:outputText value="#{series.comentario}" />
+			</p:column>
+			<p:column headerText="Nota de Avaliação">
+				<h:outputText value="#{series.notaAvaliacao}" />
+			</p:column>
+			<p:column headerText="Ação">
+				<p:commandButton value="Editar" action="#{seriesController.editar}" ajax="false">
+					<f:setPropertyActionListener 
+						value="#{series}" 
+						target="#{seriesController.series}" />
+				</p:commandButton>
+				<p:commandButton value="Excluir" action="#{seriesController.excluir}" ajax="false">
+					<f:setPropertyActionListener 
+						value="#{series}" 
+						target="#{seriesController.series}" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+		<h:commandLink>
+			<p:graphicImage title="Exportar para XML" name="/imagens/xml.png" width="24"/>
+			<p:dataExporter type="xml" target="serie" fileName="lista" />
+		</h:commandLink>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

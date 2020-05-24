@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+<link rel="stylesheet" type="text/css" href="css/bg.css" />
+            <style type="text/css">
+                .ui-widget{font-size:90% !important;}
+            </style>
+	<title>Cadastro de Status</title>
+</h:head>
+<h:body>
+	<h:form>
+	<p:commandLink value="MENU" action="menu.xhtml" immediate="true" ajax="false"/>
+		<h1>Cadastro de Status</h1>
+		<p:growl/>
+		<p:panel header="Cadastro" toggleable="true">
+		<p:panelGrid columns="2">
+			<h:outputText value="Descrição: *" />
+			<p:inputText value="#{statusController.status.descricao}"
+				 required="true"
+				 requiredMessage="O campo descrição é obrigatório!" />
+			
+			 <p:commandButton value="Salvar" action="#{statusController.salvar}" ajax="false" />
+			 <p:commandButton value="Limpar" action="cadastroStatus.xhtml" actionListener="#{statusController.limparCampos}" ajax="false" />
+		</p:panelGrid>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>
